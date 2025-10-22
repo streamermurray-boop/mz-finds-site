@@ -6,10 +6,410 @@
 <title>Mz Finds — Catalog</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
-/* (All CSS and JS from the previous complete version go here unchanged) */
+:root{--bg:#000;--panel:#101317;--text:#EAEAEA;--muted:#9AA4B2;--line:#1B1F24;--emerald:#0AA968;--emerald-2:#0C8B5A;--radius:14px;--shadow:0 10px 30px rgba(0,0,0,.35)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',system-ui;overflow-x:hidden}
+header{background:#0C0E12;padding:16px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:10}
+.logo{width:42px;height:42px;background:linear-gradient(135deg,var(--emerald),var(--emerald-2));border-radius:12px;display:grid;place-items:center;font-weight:900;color:#06140E;box-shadow:0 12px 28px rgba(10,169,104,.28)}
+.container{max-width:1150px;margin:auto;padding:16px}
+.promo{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:18px 20px;margin:14px auto 8px;border-radius:18px;background:radial-gradient(120% 160% at 0% 0%, rgba(10,169,104,.18), rgba(12,139,90,.10) 45%, rgba(16,19,23,.55) 70%), #0A0E12;border:1px solid #162028;box-shadow:0 10px 30px rgba(10,169,104,.18);text-decoration:none;transition:transform .2s ease, box-shadow .2s ease}
+.promo:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(10,169,104,.28)}
+.promo-line1{font-weight:900;letter-spacing:.03em;font-size:28px;color:#C6CCD4}
+.promo-line2{font-weight:900;font-size:42px;color:#5EF3B1;text-shadow:0 0 20px rgba(10,169,104,.38)}
+.promo-line3{font-weight:900;font-size:26px;color:#C6CCD4}
+.promo-logo{width:100px;height:100px;border-radius:22px;overflow:hidden;box-shadow:0 0 0 8px rgba(10,169,104,.08),0 18px 40px rgba(10,169,104,.25)}
+.promo-logo img{width:100%;height:100%;object-fit:cover}
+.hero{display:grid;place-items:center;padding:20px 14px 8px}
+.big-search{width:min(820px,92vw);display:flex;gap:10px}
+.big-search input{flex:1;font-size:20px;padding:18px;border-radius:16px;border:1px solid var(--line);background:#0E1114;color:var(--text)}
+.big-search .btn{padding:16px 18px;border-radius:14px;font-size:16px;background:linear-gradient(135deg,var(--emerald),var(--emerald-2));color:#06140E;font-weight:800;border:none;cursor:pointer}
+.panel{display:grid;gap:10px;grid-template-columns:1.6fr auto;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:12px;box-shadow:var(--shadow);margin:12px 0}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.tab{background:#0E1114;color:var(--text);border:1px solid var(--line);padding:8px 12px;border-radius:999px;font-weight:700;cursor:pointer;transition:all .3s ease}
+.tab.active{background:linear-gradient(135deg,var(--emerald),var(--emerald-2));color:#06140E}
+.tab:hover{transform:translateY(-2px);box-shadow:0 0 12px rgba(10,169,104,.6)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px}
+.card{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);transition:all .25s ease}
+.card:hover{transform:translateY(-6px);box-shadow:0 0 22px rgba(10,169,104,.35)}
+.card img{width:100%;aspect-ratio:1/1;object-fit:cover;background:#0E1114}
+.card .meta{padding:12px}
+.card .title{font-weight:800}
+.card .price{color:var(--muted);font-size:14px;margin-top:4px}
+.price-pill{background:linear-gradient(135deg,rgba(10,169,104,.15),rgba(10,169,104,.25));border:1px solid rgba(10,169,104,.35);border-radius:999px;padding:4px 8px;color:#CFF7E7;font-weight:700;display:inline-block}
+.btn.buy{display:inline-block;padding:10px 14px;border-radius:12px;background:linear-gradient(135deg,var(--emerald),var(--emerald-2));color:#06140E;text-decoration:none;font-weight:800;border:1px solid rgba(10,169,104,.45)}
+.fav-btn{position:absolute;right:10px;top:10px;width:36px;height:36px;border-radius:999px;border:1px solid var(--line);background:#0E1114;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 16px rgba(0,0,0,.35);font-size:18px;line-height:1;color:#9AA4B2}
+.fav-btn.active{background:linear-gradient(135deg,var(--emerald),var(--emerald-2));border-color:rgba(10,169,104,.55);color:#06140E}
+.featured-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px;padding:6px 2px 10px;border-radius:12px}
+.fthumb{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);transition:.25s ease}
+.fthumb:hover{transform:translateY(-5px);box-shadow:0 0 22px rgba(10,169,104,.35)}
+.fthumb img{width:100%;aspect-ratio:1/1;object-fit:cover;display:block;background:#0E1114}
+.hidden{display:none!important}
+#status{margin:8px 0;color:#9AA4B2;font-size:13px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:60}
+.modal.show{display:flex}
+.modal-card{background:#0E1114;border:1px solid var(--line);border-radius:16px;max-width:520px;width:min(92vw,520px);padding:18px 18px 14px;box-shadow:0 20px 60px rgba(0,0,0,.5);color:#fff;text-align:center}
+.modal-card h3{margin:0 0 8px;font-size:26px;font-weight:900;color:#fff;text-shadow:0 0 15px rgba(10,169,104,.9)}
+.modal-card p{margin:0 0 14px;color:#fff;font-size:16px;line-height:1.6}
+.modal-actions{display:flex;gap:10px;justify-content:center}
+.modal-actions .btn{padding:10px 18px;border-radius:12px;border:1px solid #1A242C;background:#14181d;color:#fff;cursor:pointer;font-weight:600;transition:all .25s ease}
+.modal-actions .btn.primary{background:linear-gradient(135deg,#0fe78f,#0AA968);color:#fff;border:none;font-weight:800;box-shadow:0 0 25px rgba(10,169,104,.4)}
+.modal-actions .btn.primary:hover{transform:translateY(-2px);box-shadow:0 0 35px rgba(10,169,104,1)}
+.modal-actions .btn:hover{background:#161C21;color:#fff;border-color:rgba(255,255,255,.2)}
+/* Splash */
+#splash{position:fixed;inset:0;background:#000;display:grid;place-items:center;z-index:1000;opacity:1;transition:opacity .6s ease;animation:splashHide 4s ease forwards}
+#splash.hide{opacity:0;pointer-events:none;visibility:hidden}
+#splash .scontent{display:grid;gap:18px;justify-items:center}
+#splash .slogo{width:min(140px,35vw);height:min(140px,35vw);border-radius:22px;object-fit:cover;box-shadow:0 0 0 8px rgba(10,169,104,.08),0 18px 40px rgba(10,169,104,.25)}
+#splash .sname{font-weight:900;letter-spacing:.5px;font-size:clamp(28px,5vw,56px);display:flex;gap:.35em;align-items:baseline;text-shadow:0 0 20px rgba(10,169,104,.5)}
+#splash .sname .mz{color:#0AA968;text-shadow:0 0 15px rgba(10,169,104,.8)}
+#splash .sname .finds{color:#B9C0C7;text-shadow:0 0 12px rgba(255,255,255,.25)}
+@keyframes splashHide{0%{opacity:1}98%{opacity:.02}100%{opacity:0;pointer-events:none;visibility:hidden}}
 </style>
 </head>
 <body>
-<!-- Full website HTML and JavaScript here (same as the final working version I provided above) -->
+<!-- Splash (4s) -->
+<div id="splash">
+  <div class="scontent">
+    <img class="slogo" src="https://i.postimg.cc/C13N1zNm/mz-finds-pfp.png" alt="Mascot">
+    <div class="sname"><span class="mz">mz</span><span class="finds">finds</span></div>
+  </div>
+</div>
+
+<header>
+  <div class="logo">MF</div>
+  <div>
+    <div style="font-weight:900;font-size:18px">Mz Finds</div>
+    <div style="font-size:12px;color:#9AA4B2">Curated deals with ACBUY</div>
+  </div>
+</header>
+
+<main class="container">
+  <a class="promo" id="promoLink" href="#" target="_blank" rel="noopener">
+    <div>
+      <div class="promo-line1">SIGN UP TO</div>
+      <div class="promo-line2">ACBUY</div>
+      <div class="promo-line3">FOR A $500 VOUCHER</div>
+    </div>
+    <div class="promo-logo">
+      <img src="https://i.postimg.cc/C13N1zNm/mz-finds-pfp.png" alt="Mascot">
+    </div>
+  </a>
+
+  <section class="hero">
+    <form id="searchForm" class="big-search">
+      <input id="bigSearch" type="text" placeholder="Search all items…" autocomplete="off">
+      <button class="btn" type="submit">Search</button>
+    </form>
+  </section>
+
+  <div class="panel">
+    <div id="status">Loading catalog…</div>
+    <select id="sort">
+      <option value="relevance">Sort: Relevance</option>
+      <option value="price-asc">Price: Low → High</option>
+      <option value="price-desc">Price: High → Low</option>
+      <option value="title-asc">Title: A → Z</option>
+    </select>
+  </div>
+
+  <nav id="tabs" class="tabs"></nav>
+
+  <h2>Featured</h2>
+  <section id="featured" class="featured-strip"></section>
+
+  <h2>All Products</h2>
+  <section id="grid" class="grid"></section>
+</main>
+
+<!-- Voucher modal -->
+<div id="buyModal" class="modal" role="dialog" aria-modal="true">
+  <div class="modal-card">
+    <h3>🎁 <span style="color:#0fe78f;">Get your $500 ACBUY voucher!</span></h3>
+    <p>Sign up using our link to claim your voucher, then continue to your product.</p>
+    <div class="modal-actions">
+      <a id="signupBtn" class="btn primary" target="_blank" rel="noopener">Sign up on ACBUY</a>
+      <button id="continueBtn" class="btn" type="button">Continue</button>
+      <button id="cancelBtn" class="btn" type="button">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ================== CONFIG ================== */
+const REF_CODE = 'SD38RK';
+const DEFAULT_CSV = 'https://raw.githubusercontent.com/streamermurray-boop/mz-finds-data/refs/heads/main/mzfinds_READY_normalized.csv';
+const CSV_URL = new URLSearchParams(location.search).get('csv') || DEFAULT_CSV;
+
+/* ================ HELPERS =================== */
+const SECTIONS = ['All','Hoodies','T-shirts','Shoes','Pants','Coats','Accessories','Clothes'];
+let PRODUCTS = [], FEATURED = [], FILTER = { q:'', sort:'relevance', section:'All' };
+const SIGNUP_URL = 'https://www.acbuy.com/login?loginStatus=register&code='+encodeURIComponent(REF_CODE)+'&utm_source=mzfinds&utm_medium=site';
+
+const $ = s => document.querySelector(s);
+const statusEl = $('#status');
+function log(m){ if(statusEl) statusEl.textContent = m; }
+function esc(s){ s = String(s||''); return s.replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+function toLower(s){ return String(s||'').toLowerCase(); }
+function onlyNum(s){ return String(s||'').replace(/[^0-9.]/g,''); }
+
+function normalizeLink(u){
+  if(!u) return '';
+  u = String(u).trim();
+  if(u.toUpperCase().startsWith('=HYPERLINK')){
+    const inner = u.slice(u.indexOf('(')+1, u.lastIndexOf(')'));
+    const first = inner.split(',')[0];
+    u = first.replace(/^\s*["']|["']\s*$/g,'');
+  }
+  if(/^www\./i.test(u)) u = 'https://' + u;
+  if(/^(acbuy\.com)/i.test(u)) u = 'https://' + u;
+  try{
+    let url = new URL(u, location.href);
+    if((url.hostname==='www.google.com'||url.hostname==='google.com') && url.pathname==='/url'){
+      const q = url.searchParams.get('q') || url.searchParams.get('url');
+      if(q) url = new URL(q, location.href);
+    }
+    if(url.protocol==='http:') url.protocol='https:';
+    return url.toString();
+  }catch(e){ return u; }
+}
+
+const PLACEHOLDER_IMG = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600"><rect width="600" height="600" fill="%23101317"/><rect x="70" y="70" width="460" height="460" rx="22" fill="%230E1114" stroke="%231B1F24"/><path d="M140 420l120-140 95 110 55-70 50 60" fill="none" stroke="%230AA968" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/><circle cx="230" cy="230" r="36" fill="%230E1114" stroke="%231B1F24"/></svg>';
+
+function normalizeImg(u){
+  if(!u) return '';
+  u = String(u).trim();
+  if(u.toUpperCase().startsWith('=IMAGE(') && u.slice(-1)===')'){
+    u = u.slice(7,-1).replace(/^\s*["']|["']\s*$/g,'');
+  }
+  try{
+    let url = new URL(u, location.href);
+    if((url.hostname==='www.google.com'||url.hostname==='google.com') && url.pathname==='/url'){
+      const q = url.searchParams.get('q') || url.searchParams.get('url');
+      if(q) url = new URL(q, location.href);
+    }
+    if(url.protocol==='http:') url.protocol='https:';
+    return url.toString();
+  }catch(e){ return u; }
+}
+function toProxy(u){
+  try{
+    let s = String(u);
+    if(s.startsWith('https://')) s = s.slice(8);
+    else if(s.startsWith('http://')) s = s.slice(7);
+    else if(s.startsWith('//')) s = s.slice(2);
+    return 'https://images.weserv.nl/?url=' + encodeURIComponent(s);
+  }catch(e){ return u; }
+}
+function hydrateImages(scope){
+  const imgs = scope.querySelectorAll('img[data-src]');
+  imgs.forEach(img=>{
+    const raw = normalizeImg(img.getAttribute('data-src')||'');
+    img.referrerPolicy = 'no-referrer';
+    img.onerror = () => {
+      if(img.dataset.triedProxy!=='1'){ img.dataset.triedProxy='1'; img.src = toProxy(raw); }
+      else { img.src = PLACEHOLDER_IMG; }
+    };
+    try{ img.src = raw || PLACEHOLDER_IMG; } catch(e){ img.onerror(); }
+  });
+}
+function appendRef(url){
+  if(!url) return '#';
+  url = normalizeLink(url);
+  try{
+    const u = new URL(url);
+    u.searchParams.set('code', REF_CODE);
+    if(!u.searchParams.has('utm_source')){
+      u.searchParams.set('utm_source','mzfinds'); u.searchParams.set('utm_medium','site');
+    }
+    return u.toString();
+  }catch(e){
+    const sep = url.includes('?') ? '&' : '?';
+    return url + sep + 'code=' + encodeURIComponent(REF_CODE);
+  }
+}
+function containsAny(t,arr){ t=toLower(t); return arr.some(x=>t.includes(x)); }
+function guessSection(t){
+  t=String(t||'');
+  if(containsAny(t,['hoodie','sweat']))return'Hoodies';
+  if(containsAny(t,['t-shirt','tee','tshirt']))return'T-shirts';
+  if(containsAny(t,['shoe','sneaker','trainer','jordan','dunk','yeezy','boot']))return'Shoes';
+  if(containsAny(t,['pant','jean','cargo','short']))return'Pants';
+  if(containsAny(t,['coat','jacket','puffer','vest']))return'Coats';
+  if(containsAny(t,['belt','bag','hat','cap','mask','wallet']))return'Accessories';
+  return'Clothes';
+}
+
+/* ================ CSV PARSE ================= */
+function splitLines(t){ return t.split(/\r?\n/); }
+function splitCSVLineWith(line,delim){
+  const out=[]; let cur='',inQ=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(ch=='"'){
+      if(inQ && line[i+1]=='"'){ cur+='"'; i++; }
+      else { inQ=!inQ; }
+    }else if(ch===delim && !inQ){ out.push(cur); cur=''; }
+    else { cur+=ch; }
+  }
+  out.push(cur); return out;
+}
+function detectDelimiter(s){
+  const c=(s.match(/,/g)||[]).length, sc=(s.match(/;/g)||[]).length, t=(s.match(/\t/g)||[]).length;
+  return sc>c&&sc>t?';':t>c&&t>sc?'\t':',';
+}
+function parseCSV(text){
+  const lines = splitLines(text).filter(l=>l.trim());
+  if(!lines.length) return [];
+  const d = detectDelimiter(lines[0]);
+  const headers = splitCSVLineWith(lines.shift(), d).map(x=>x.trim());
+  const rows=[];
+  for(const line of lines){
+    const cols = splitCSVLineWith(line, d);
+    const o={};
+    headers.forEach((h,i)=>o[h]= (cols[i]??'').trim());
+    rows.push(o);
+  }
+  return rows;
+}
+
+/* ================ RENDER ==================== */
+function pid(p){ return encodeURIComponent((p.Title||'')+'|'+(p._href||'')); }
+function card(p){
+  return `<div class="card">
+    <button class="fav-btn" data-id="${pid(p)}" aria-label="Add to favourites">&#9829;</button>
+    <img data-src="${esc(p.Image)}" alt="${esc(p.Title)}">
+    <div class="meta"><div class="title">${esc(p.Title)}</div>
+      <div class="price"><span class="price-pill">£${(p.Price||0).toFixed(2)}</span></div>
+    </div>
+    <div class="meta"><a class="btn buy" href="${esc(p._href)}">Buy</a></div>
+  </div>`;
+}
+function renderTabs(){
+  const wrap = $('#tabs'); if(!wrap) return; wrap.innerHTML='';
+  SECTIONS.forEach(sec=>{
+    const b = document.createElement('button');
+    b.textContent = sec;
+    b.className = 'tab' + (FILTER.section===sec?' active':'');
+    b.onclick = ()=>{ FILTER.section=sec; renderTabs(); renderGrid(); };
+    wrap.appendChild(b);
+  });
+}
+function filtered(){
+  const q = toLower(FILTER.q);
+  return PRODUCTS.filter(p=>{
+    if(FILTER.section!=='All' && p.Section!==FILTER.section) return false;
+    if(q && !toLower(p.Title).includes(q)) return false;
+    return true;
+  });
+}
+function updateFeatured(){
+  const box = $('#featured'); if(!box) return;
+  const show = !FILTER.q && FILTER.section==='All';
+  box.classList.toggle('hidden', !show);
+}
+function renderGrid(){
+  const g = $('#grid'); if(!g) return;
+  let items = filtered();
+
+  if(FILTER.sort==='price-asc') items = items.slice().sort((a,b)=>a.Price-b.Price);
+  else if(FILTER.sort==='price-desc') items = items.slice().sort((a,b)=>b.Price-a.Price);
+  else if(FILTER.sort==='title-asc') items = items.slice().sort((a,b)=>String(a.Title).localeCompare(String(b.Title)));
+
+  g.innerHTML = items.map(card).join('');
+  hydrateImages(g); applyFavStates(g); updateFeatured();
+  log(`Showing ${items.length} items.`);
+}
+function renderFeatured(){
+  const f = $('#featured'); if(!f) return;
+  const shown = FEATURED.slice(0,10);
+  f.innerHTML = shown.map(p=>(
+    `<div class="fthumb"><a href="${esc(p._href)}" class="featured-link"><img data-src="${esc(p.Image)}" alt="${esc(p.Title)}"></a></div>`
+  )).join('');
+  hydrateImages(f);
+}
+
+/* ============== FAVOURITES ================== */
+const FKEY='mz_favs_v1';
+function loadFavs(){ try{return JSON.parse(localStorage.getItem(FKEY)||'[]')}catch(e){return[]} }
+function saveFavs(a){ try{localStorage.setItem(FKEY,JSON.stringify(a))}catch(e){} }
+function toggleFav(id){ const a=loadFavs(); const i=a.indexOf(id); if(i>-1) a.splice(i,1); else a.push(id); saveFavs(a); }
+function applyFavStates(scope){
+  const favs = new Set(loadFavs());
+  scope.querySelectorAll('.fav-btn').forEach(b=>b.classList.toggle('active', favs.has(b.dataset.id)));
+}
+document.addEventListener('click', e=>{
+  const b=e.target.closest('.fav-btn'); if(!b) return;
+  b.classList.toggle('active'); toggleFav(b.dataset.id);
+});
+
+/* ============== VOUCHER MODAL ============== */
+const modal = $('#buyModal'), continueBtn=$('#continueBtn'), cancelBtn=$('#cancelBtn'), signupBtn=$('#signupBtn');
+let pendingHref=null;
+
+function openModal(h){ pendingHref=h; modal.classList.add('show'); }
+function closeModal(){ modal.classList.remove('show'); pendingHref=null; }
+
+signupBtn.href = SIGNUP_URL;
+continueBtn.addEventListener('click', ()=>{
+  if(pendingHref){
+    const w = window.open(pendingHref,'_blank','noopener');
+    if(!w || w.closed || typeof w.closed==='undefined'){ window.location.href = pendingHref; }
+  }
+  closeModal();
+});
+cancelBtn.addEventListener('click', closeModal);
+modal.addEventListener('click',e=>{ if(e.target===modal) closeModal(); });
+
+/* Intercept all “Buy” clicks to show modal first */
+document.addEventListener('click', e=>{
+  const a=e.target.closest('a.buy'); if(!a) return;
+  e.preventDefault(); openModal(a.href);
+});
+
+/* ============== SEARCH & SORT ============== */
+$('#searchForm').addEventListener('submit', e=>{ e.preventDefault(); FILTER.q = $('#bigSearch').value; renderGrid(); });
+$('#bigSearch').addEventListener('input', e=>{ FILTER.q = e.target.value; renderGrid(); });
+$('#sort').addEventListener('change', e=>{ FILTER.sort=e.target.value; renderGrid(); });
+
+/* ============== LOAD CSV =================== */
+async function loadCSV(url){
+  log('Fetching catalog…');
+  const res = await fetch(url, {cache:'no-store'});
+  if(!res.ok) throw new Error('Fetch failed: '+res.status);
+  const text = await res.text();
+  const rows = parseCSV(text);
+  log('Parsed '+rows.length+' rows');
+
+  PRODUCTS=[];
+  for(const o of rows){
+    const title = o.Title||o.Name||o.title||o.name||'';
+    const img = normalizeImg(o.ImageURL||o.Image||o.image||o.imageurl||'');
+    const rawLink = o.Link||o.URL||o.Url||o.href||o.url||o['ACBuy Page']||o['ACBUY Page']||o['ACBUY']||o['Page']||o['Product Link']||'';
+    const price = parseFloat(onlyNum(o.Price||o.price||''))||0;
+    const sec = o.Category||o.category||guessSection(title);
+    if(!title) continue;
+    const href = appendRef(rawLink);
+    PRODUCTS.push({Title:title, Image:img, Price:price, _href:href, Section:sec});
+  }
+  FEATURED = PRODUCTS.slice(0,10);
+  renderTabs(); renderFeatured(); renderGrid();
+}
+
+/* ============== INIT ======================= */
+window.addEventListener('load', ()=>{
+  // Splash skip by click/Esc
+  const s = $('#splash');
+  const hide = ()=>{ if(!s) return; s.classList.add('hide'); s.style.opacity='0'; s.style.pointerEvents='none'; s.style.visibility='hidden'; };
+  if(s){ s.addEventListener('click',hide); document.addEventListener('keydown',e=>{ if(e.key==='Escape') hide(); }); }
+
+  // Promo banner link with affiliate
+  const promo = $('#promoLink'); promo.href = SIGNUP_URL;
+
+  // Load data
+  loadCSV(CSV_URL).catch(err=>{
+    console.error(err); log('Failed to load catalog. If this persists, ensure the CSV URL is correct.');
+  });
+});
+</script>
 </body>
 </html>
